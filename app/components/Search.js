@@ -1,8 +1,14 @@
 import React from 'react'
+import { Link ***REMOVED*** from 'react-router-dom'
 
 class Search extends React.Component {
   state = {
     locale: ''
+  ***REMOVED***
+  handleSubmit = (event) => {
+    event.preventDefault()
+
+    console.log(this.state.locale)
   ***REMOVED***
   handleChange = (event) => {
     const locale = event.target.value
@@ -12,7 +18,7 @@ class Search extends React.Component {
     const { locale ***REMOVED*** = this.state
 
     return (
-      <form className="form-inline">
+      <form className="form-inline" onSubmit={this.handleSubmit***REMOVED***>
         <input
           id='location'
           className='form-control mr-sm-2'
@@ -22,6 +28,7 @@ class Search extends React.Component {
           placeholder='ex: San Antonio, TX'
           aria-label='Get Weather'
           onChange={this.handleChange***REMOVED***
+          onSubmit={this.handleSubmit***REMOVED***
         />
         <button
           className='btn btn-success my-2 my-sm-0'
