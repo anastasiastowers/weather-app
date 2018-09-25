@@ -9,11 +9,27 @@ h1 {
   font-weight: 100;
 ***REMOVED***
 
+/* Nav.js */
+
+nav {
+  background: rgba(252,90,44,.89);
+***REMOVED***
+
+nav .navbar-brand, a:not([href]):not([tabindex]) {
+  color: #fff;
+***REMOVED***
+
+nav form {
+  margin-bottom: 0;
+***REMOVED***
+
 /* Home.js */
 
 .content-wrapper {
   display: flex;
-  min-height: 100vh;
+  flex-direction: column;
+  height: 100vh;
+  min-height: 400px;
 ***REMOVED***
 
 .home-bg {
@@ -33,5 +49,6 @@ h1 {
 ***REMOVED***
 
 .home-bg .btn {
-  margin-top: 20px;
+  display: block;
+  margin: 20px auto 0 auto !important;
 ***REMOVED***

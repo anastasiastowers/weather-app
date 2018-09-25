@@ -1,4 +1,5 @@
 import React from 'react'
+import Search from './Search'
 
 class Home extends React.Component {
   render() {
@@ -6,18 +7,7 @@ class Home extends React.Component {
       <div className='home-bg' style={{backgroundImage: "url('app/images/pattern.svg')"***REMOVED******REMOVED***>
         <form>
           <h1>Enter a City and State</h1>
-          <input
-            id='cityState'
-            className='form-control'
-            placeholder='ex: San Antonio, Texas'
-            type='text'
-            autoComplete='off'
-          />
-          <button
-            className='btn btn-success d-block mx-auto'
-            type='submit'>
-              Get Weather
-          </button>
+          <Search />
         </form>
       </div>
     )
