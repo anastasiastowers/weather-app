@@ -48,7 +48,10 @@ nav form {
   font-size: 3em;
 ***REMOVED***
 
+.home-bg form {
+  justify-content: center;
+***REMOVED***
+
 .home-bg .btn {
-  display: block;
-  margin: 20px auto 0 auto !important;
+  margin-bottom: 0;
 ***REMOVED***

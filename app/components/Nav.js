@@ -6,9 +6,7 @@ class Nav extends React.Component {
     return (
       <nav className="navbar">
         <a className="navbar-brand">Weather App</a>
-        <form className="form-inline">
-          <Search />
-        </form>
+        <Search />
       </nav>
     )
   ***REMOVED***
