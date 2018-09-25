@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link ***REMOVED*** from 'react-router-dom'
+import { Link, withRouter ***REMOVED*** from 'react-router-dom'
 
 class Search extends React.Component {
   state = {
@@ -7,8 +7,9 @@ class Search extends React.Component {
   ***REMOVED***
   handleSubmit = (event) => {
     event.preventDefault()
+    const { locale ***REMOVED*** = this.state
 
-    console.log(this.state.locale)
+    this.props.history.push(`/forecast?locale=${locale***REMOVED***`)
   ***REMOVED***
   handleChange = (event) => {
     const locale = event.target.value
@@ -41,4 +42,4 @@ class Search extends React.Component {
   ***REMOVED***
 ***REMOVED***
 
-export default Search
+export default withRouter(Search)
