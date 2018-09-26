@@ -5,41 +5,41 @@ const styles = {
   content: {
     textAlign: 'center',
     fontSize: '35px'
-  ***REMOVED***
-***REMOVED***
+  }
+}
 
 class Loading extends React.Component {
   static propTypes = {
     text: PropTypes.string.isRequired,
     speed: PropTypes.number.isRequired
-  ***REMOVED***
+  }
   static defaultProps = {
     text: 'Loading',
     speed: 300
-  ***REMOVED***
+  }
   state = {
     text: this.props.text
-  ***REMOVED***
+  }
   componentDidMount() {
-    const { text, speed ***REMOVED*** = this.props
-    let stopper = `${text***REMOVED***...`
+    const { text, speed } = this.props
+    let stopper = `${text}...`
 
     this.interval = window.setInterval(() => {
       this.state.text === stopper
-        ? this.setState(() => ({ text: this.props.text ***REMOVED***))
-        : this.setState( prevState => ({ text: prevState.text + '.' ***REMOVED***))
-    ***REMOVED***, speed);
-  ***REMOVED***
+        ? this.setState(() => ({ text: this.props.text }))
+        : this.setState( prevState => ({ text: prevState.text + '.' }))
+    }, speed);
+  }
   componentWillUnmount() {
     window.clearInterval(this.interval);
-  ***REMOVED***
+  }
   render() {
     return (
-      <p style={styles.content***REMOVED***>
-        {this.state.text***REMOVED***
+      <p style={styles.content}>
+        {this.state.text}
       </p>
     )
-  ***REMOVED***
-***REMOVED***
+  }
+}
 
 export default Loading

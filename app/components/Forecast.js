@@ -1,16 +1,16 @@
 import React from 'react'
 import Loading from './Loading'
 import queryString from 'query-string'
-import { fetchWeather ***REMOVED*** from '../utils/api'
+import { fetchWeather } from '../utils/api'
 
 class WeatherGrid extends React.Component {
   render() {
     console.log(this.props.forecast)
     return (
-      <div>Wow Weather in {this.props.forecast.city.name***REMOVED***</div>
+      <div>Wow Weather in {this.props.forecast.city.name}</div>
     )
-  ***REMOVED***
-***REMOVED***
+  }
+}
 
 const parseLocale = props => queryString.parse(props.location.search)
 
@@ -18,37 +18,37 @@ class Forecast extends React.Component {
   state = {
     forecast: null,
     isLoading: true
-  ***REMOVED***
+  }
 
   setWeather = async () => {
-    this.setState({ isLoading: true ***REMOVED***)
-    const { locale ***REMOVED*** = parseLocale(this.props)
+    this.setState({ isLoading: true })
+    const { locale } = parseLocale(this.props)
     const forecast = await fetchWeather(locale)
-    this.setState({ isLoading: false, forecast: forecast ***REMOVED***)
-  ***REMOVED***
+    this.setState({ isLoading: false, forecast: forecast })
+  }
 
   componentDidMount() {
     this.setWeather()
-  ***REMOVED***
+  }
 
   componentDidUpdate(prevProps) {
-    const { locale ***REMOVED*** = parseLocale(this.props)
-    const { locale: prevLocale ***REMOVED*** = parseLocale(prevProps)
+    const { locale } = parseLocale(this.props)
+    const { locale: prevLocale } = parseLocale(prevProps)
 
     if(locale != prevLocale) {
       this.setWeather()
-    ***REMOVED***
-  ***REMOVED***
+    }
+  }
 
   render() {
     return (
       <div>
         {this.state.isLoading
           ? <Loading />
-          : <WeatherGrid forecast={this.state.forecast***REMOVED*** />***REMOVED***
+          : <WeatherGrid forecast={this.state.forecast} />}
       </div>
     )
-  ***REMOVED***
-***REMOVED***
+  }
+}
 
 export default Forecast

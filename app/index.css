@@ -3,25 +3,25 @@
 body {
   margin: 0;
   font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif;
-***REMOVED***
+}
 
 h1 {
   font-weight: 100;
-***REMOVED***
+}
 
 /* Nav.js */
 
 nav {
   background: rgba(252,90,44,.89);
-***REMOVED***
+}
 
 nav .navbar-brand, a:not([href]):not([tabindex]) {
   color: #fff;
-***REMOVED***
+}
 
 nav form {
   margin-bottom: 0;
-***REMOVED***
+}
 
 /* Home.js */
 
@@ -30,7 +30,7 @@ nav form {
   flex-direction: column;
   height: 100vh;
   min-height: 400px;
-***REMOVED***
+}
 
 .home-bg {
   display: flex;
@@ -40,18 +40,18 @@ nav form {
   background-size: cover;
   align-items: center;
   justify-content: center;
-***REMOVED***
+}
 
 .home-bg h1 {
   color: #fff;
   text-align: center;
   font-size: 3em;
-***REMOVED***
+}
 
 .home-bg form {
   justify-content: center;
-***REMOVED***
+}
 
 .home-bg .btn {
   margin-bottom: 0;
-***REMOVED***
+}

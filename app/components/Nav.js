@@ -9,7 +9,7 @@ class Nav extends React.Component {
         <Search />
       </nav>
     )
-  ***REMOVED***
-***REMOVED***
+  }
+}
 
 export default Nav

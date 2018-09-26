@@ -1,14 +1,14 @@
-import { weatherApiSecretKey ***REMOVED*** from './secrets.js'
+import { weatherApiSecretKey } from './secrets.js'
 
-const appId = `&appid=${weatherApiSecretKey()***REMOVED***`
+const appId = `&appid=${weatherApiSecretKey()}`
 
 function handleError (error) {
   console.warn(error);
   return null;
-***REMOVED***
+}
 
 export async function fetchWeather (locale) {
-  const encodedURI = window.encodeURI(`https://api.openweathermap.org/data/2.5/forecast?q=${locale***REMOVED***${appId***REMOVED***`);
+  const encodedURI = window.encodeURI(`https://api.openweathermap.org/data/2.5/forecast?q=${locale}${appId}`);
 
   const response = await fetch(encodedURI)
     .catch(handleError);
@@ -16,4 +16,4 @@ export async function fetchWeather (locale) {
   const weather = await response.json()
 
   return weather
-***REMOVED***
+}
