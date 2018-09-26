@@ -7,7 +7,7 @@ class WeatherGrid extends React.Component {
   render() {
     console.log(this.props.forecast)
     return (
-      <div>Wow Weather</div>
+      <div>Wow Weather in {this.props.forecast.city.name***REMOVED***</div>
     )
   ***REMOVED***
 ***REMOVED***
@@ -16,14 +16,14 @@ const parseLocale = props => queryString.parse(props.location.search)
 
 class Forecast extends React.Component {
   state = {
-    locale: parseLocale(this.props).locale,
     forecast: null,
     isLoading: true
   ***REMOVED***
 
   setWeather = async () => {
     this.setState({ isLoading: true ***REMOVED***)
-    const forecast = await fetchWeather(this.state.locale)
+    const { locale ***REMOVED*** = parseLocale(this.props)
+    const forecast = await fetchWeather(locale)
     this.setState({ isLoading: false, forecast: forecast ***REMOVED***)
   ***REMOVED***
 
