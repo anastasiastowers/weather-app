@@ -1,13 +1,17 @@
 import React from 'react'
 import Loading from './Loading'
 import queryString from 'query-string'
-import { fetchWeather } from '../utils/api'
+import { fetchCurrentWeather, fetchForecast } from '../utils/api'
 
 class WeatherGrid extends React.Component {
   render() {
-    console.log(this.props.forecast)
+    const { forecast, weather } = this.props
+    console.log(forecast)
+    console.log(weather)
     return (
-      <div>Wow Weather in {this.props.forecast.city.name}</div>
+      <div>
+        <h1>{forecast.city.name}</h1>
+      </div>
     )
   }
 }
@@ -17,14 +21,18 @@ const parseLocale = props => queryString.parse(props.location.search)
 class Forecast extends React.Component {
   state = {
     forecast: null,
+    weather: null,
     isLoading: true
   }
 
   setWeather = async () => {
     this.setState({ isLoading: true })
     const { locale } = parseLocale(this.props)
-    const forecast = await fetchWeather(locale)
-    this.setState({ isLoading: false, forecast: forecast })
+    const [ weather, forecast ] = await Promise.all([
+      fetchCurrentWeather(locale),
+      fetchForecast(locale)
+    ])
+    this.setState({ isLoading: false, weather: weather, forecast: forecast })
   }
 
   componentDidMount() {
@@ -45,7 +53,7 @@ class Forecast extends React.Component {
       <div>
         {this.state.isLoading
           ? <Loading />
-          : <WeatherGrid forecast={this.state.forecast} />}
+          : <WeatherGrid forecast={this.state.forecast} weather={this.state.weather} />}
       </div>
     )
   }
