@@ -10,7 +10,7 @@ class WeatherGrid extends React.Component {
     const currentDate = new Date(list[0].dt_txt).getDate()
     const map = new Map();
 
-    list.forEach((item) => {
+    list.forEach(item => {
       const key = keyGetter(item).split(' ')[0];
       if (!map.has(key)) {
         map.set(key, [item]);
