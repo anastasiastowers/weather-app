@@ -1,6 +1,6 @@
 # Weather App
 
-My solution to TylerMcGinnis.com's [Curriculum for React Fundamentals Course](https://github.com/tylermcginnis/react-fundamentals-curriculum).git
+My solution to TylerMcGinnis.com's [Curriculum for React Fundamentals Course](https://github.com/tylermcginnis/react-fundamentals-curriculum)
 
 ## Setup
 
