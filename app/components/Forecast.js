@@ -28,14 +28,14 @@ class WeatherGrid extends React.Component {
     return array;
   }
 
-  calcHighTemp = (arr) => {
-    const map = arr.map(function(o) { return o.main.temp });
+  calcHighTemp = arr => {
+    const map = arr.map(o => o.main.temp);
     const kelvin = Math.max(...map)
     return this.convertToFahrenheit(kelvin)
   }
 
-  calcLowTemp = (arr) => {
-    const map = arr.map(function(o) { return o.main.temp });
+  calcLowTemp = arr => {
+    const map = arr.map(o => o.main.temp);
     const kelvin = Math.min(...map)
     return this.convertToFahrenheit(kelvin)
   }
@@ -43,7 +43,7 @@ class WeatherGrid extends React.Component {
   groupBy = (list, keyGetter) => {
     const map = new Map();
 
-    list.forEach((item) => {
+    list.forEach(item => {
       const key = keyGetter(item);
       if (!map.has(key)) {
         map.set(key, [item]);
@@ -55,7 +55,7 @@ class WeatherGrid extends React.Component {
     return map
   }
 
-  calcMostLikelyWeatherIcon = (arr) => {
+  calcMostLikelyWeatherIcon = arr => {
     const groupedByWeatherIcon = this.groupBy(arr, arr => arr.weather[0].icon)
     let votes = []
 
@@ -87,6 +87,7 @@ class WeatherGrid extends React.Component {
   render() {
     const { forecast, weather } = this.props
     const dailyForecast = this.dailyForecast(forecast)
+
     return (
       <div className='container forecast mt-5'>
         <h1>{forecast.city.name}</h1>
@@ -104,6 +105,7 @@ class WeatherGrid extends React.Component {
             const { date, lowTemp, highTemp, weatherIcon } = dayForecast
             const dateOptions = { weekday: 'long', month: 'short', day: 'numeric' }
             const displayDate = new Date(date).toLocaleDateString("en-US", dateOptions)
+
             return (
               <div className="card bg-light mb-3 col-lg" key={index}>
                 <div className="card-body">
