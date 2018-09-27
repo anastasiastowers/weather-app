@@ -55,3 +55,9 @@ nav form {
 .home-bg .btn {
   margin-bottom: 0;
 }
+
+/* Forecast.js */
+
+.forecast h1 {
+  text-align: center;
+}

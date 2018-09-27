@@ -4,13 +4,123 @@ import queryString from 'query-string'
 import { fetchCurrentWeather, fetchForecast } from '../utils/api'
 
 class WeatherGrid extends React.Component {
+  convertToFahrenheit = kelvins => Math.round(1.8 * (kelvins - 273) + 32)
+
+  groupByDate = (list, keyGetter) => {
+    const currentDate = new Date(list[0].dt_txt).getDate()
+    const map = new Map();
+
+    list.forEach((item) => {
+      const key = keyGetter(item).split(' ')[0];
+      if (!map.has(key)) {
+        map.set(key, [item]);
+      } else {
+        map.get(key).push(item);
+      }
+    });
+
+    let array = []
+    const addToArray = (value, key, map) => {
+      array.push(value)
+    }
+    map.forEach(addToArray)
+
+    return array;
+  }
+
+  calcHighTemp = (arr) => {
+    const map = arr.map(function(o) { return o.main.temp });
+    const kelvin = Math.max(...map)
+    return this.convertToFahrenheit(kelvin)
+  }
+
+  calcLowTemp = (arr) => {
+    const map = arr.map(function(o) { return o.main.temp });
+    const kelvin = Math.min(...map)
+    return this.convertToFahrenheit(kelvin)
+  }
+
+  groupBy = (list, keyGetter) => {
+    const map = new Map();
+
+    list.forEach((item) => {
+      const key = keyGetter(item);
+      if (!map.has(key)) {
+        map.set(key, [item]);
+      } else {
+        map.get(key).push(item);
+      }
+    });
+
+    return map
+  }
+
+  calcMostLikelyWeatherIcon = (arr) => {
+    const groupedByWeatherIcon = this.groupBy(arr, arr => arr.weather[0].icon)
+    let votes = []
+
+    for (let [key, value] of groupedByWeatherIcon) {
+      votes.push([key, value.length])
+    }
+    votes.sort((a, b) => b[1] - a[1]);
+
+    return votes[0][0]
+  }
+
+  dailyForecast = forecast => {
+    const datesBlockObject = this.groupByDate(forecast.list, forecastBlock => forecastBlock.dt_txt)
+    // const day1 = datesBlockObject[1]
+
+    let dayWeatherArray = []
+    for(let i = 0; i < 5; i++) {
+      const date = datesBlockObject[i][0].dt_txt
+      const highTemp = this.calcHighTemp(datesBlockObject[i])
+      const lowTemp = this.calcLowTemp(datesBlockObject[i])
+      const weatherIcon = this.calcMostLikelyWeatherIcon(datesBlockObject[i])
+
+      const dayWeather = {
+        date,
+        highTemp,
+        lowTemp,
+        weatherIcon
+      }
+
+      dayWeatherArray.push(dayWeather)
+    }
+    return dayWeatherArray
+  }
+
   render() {
     const { forecast, weather } = this.props
-    console.log(forecast)
-    console.log(weather)
+    const dailyForecast = this.dailyForecast(forecast)
     return (
-      <div>
+      <div className='container forecast mt-5'>
         <h1>{forecast.city.name}</h1>
+        <div className='row justify-content-sm-center mt-3 mb-3'>
+          <div className="card bg-light mb-3 col-sm-3">
+            <div className="card-body">
+              <h5 className="card-title">Current</h5>
+              <p className="card-text">{this.convertToFahrenheit(weather.main.temp)}&deg;</p>
+              <img src={`http://openweathermap.org/img/w/${weather.weather[0].icon}.png`} />
+            </div>
+          </div>
+        </div>
+        <div className='row'>
+          {dailyForecast.map((dayForecast, index) => {
+            const { date, lowTemp, highTemp, weatherIcon } = dayForecast
+            const dateOptions = { weekday: 'long', month: 'short', day: 'numeric' }
+            const displayDate = new Date(date).toLocaleDateString("en-US", dateOptions)
+            return (
+              <div className="card bg-light mb-3 col-lg" key={index}>
+                <div className="card-body">
+                  <h5 className="card-title">{displayDate}</h5>
+                  <p className="card-text">{lowTemp}&deg; - {highTemp}&deg;</p>
+                  <img src={`http://openweathermap.org/img/w/${weatherIcon}.png`} />
+                </div>
+              </div>
+            )
+          })}
+        </div>
       </div>
     )
   }
