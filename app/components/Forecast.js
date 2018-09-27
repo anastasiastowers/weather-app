@@ -4,6 +4,9 @@ import queryString from 'query-string'
 import { fetchCurrentWeather, fetchForecast } from '../utils/api'
 
 class WeatherGrid extends React.Component {
+  state = {
+    detailView: null
+  }
   convertToFahrenheit = kelvins => Math.round(1.8 * (kelvins - 273) + 32)
 
   groupByDate = (list, keyGetter) => {
@@ -67,9 +70,7 @@ class WeatherGrid extends React.Component {
     return votes[0][0]
   }
 
-  dailyForecast = forecast => {
-    const datesBlockObject = this.groupByDate(forecast.list, forecastBlock => forecastBlock.dt_txt)
-
+  dailyForecast = datesBlockObject => {
     let dayWeatherArray = []
     for(let i = 0; i < 5; i++) {
       const dayWeather = {
@@ -84,39 +85,79 @@ class WeatherGrid extends React.Component {
     return dayWeatherArray
   }
 
+  setDetailView = date => {
+    this.setState({ detailView : date })
+  }
+
+  getDisplayDate = date => {
+    const dateOptions = { weekday: 'long', month: 'short', day: 'numeric' }
+    return new Date(date).toLocaleDateString("en-US", dateOptions)
+  }
+
+  getDisplayTime = date => {
+    return new Date(date).toLocaleTimeString();
+  }
+
   render() {
     const { forecast, weather } = this.props
-    const dailyForecast = this.dailyForecast(forecast)
+    const datesBlockObject = this.groupByDate(forecast.list, forecastBlock => forecastBlock.dt_txt)
+    const dailyForecast = this.dailyForecast(datesBlockObject)
+    const { detailView } = this.state
 
     return (
-      <div className='container forecast mt-5'>
-        <h1>{forecast.city.name}</h1>
-        <div className='row justify-content-sm-center mt-3 mb-3'>
-          <div className="card bg-light mb-3 col-sm-3">
-            <div className="card-body">
-              <h5 className="card-title">Current</h5>
-              <p className="card-text">{this.convertToFahrenheit(weather.main.temp)}&deg;</p>
-              <img src={`http://openweathermap.org/img/w/${weather.weather[0].icon}.png`} />
-            </div>
-          </div>
-        </div>
-        <div className='row'>
-          {dailyForecast.map((dayForecast, index) => {
-            const { date, lowTemp, highTemp, weatherIcon } = dayForecast
-            const dateOptions = { weekday: 'long', month: 'short', day: 'numeric' }
-            const displayDate = new Date(date).toLocaleDateString("en-US", dateOptions)
+      <div>
+        {detailView
+          ? <div className='container day-forecast mt-5'>
+              <h1>{forecast.city.name}</h1>
+              <p className='back' onClick={this.setDetailView.bind(this, null)}>Go Back</p>
+              <h2>{this.getDisplayDate(detailView[0].dt_txt)}</h2>
+              <div className='row'>
+                {detailView.map((forecastPeriod, index) => {
+                  const { dt_txt: date, main, weather } = forecastPeriod
+                  const { humidity, temp } = main
+                  const { icon: weatherIcon } = weather[0]
 
-            return (
-              <div className="card bg-light mb-3 col-lg" key={index}>
-                <div className="card-body">
-                  <h5 className="card-title">{displayDate}</h5>
-                  <p className="card-text">{lowTemp}&deg; - {highTemp}&deg;</p>
-                  <img src={`http://openweathermap.org/img/w/${weatherIcon}.png`} />
+                  return (
+                    <div className="day-card card bg-light mb-3 col-lg" key={index}>
+                      <div className="card-body">
+                        <h5 className="card-title">{this.getDisplayTime(date)}</h5>
+                        <p className="card-text">{temp}&deg;</p>
+                        <p className="card-text">Humidity: {humidity}%</p>
+                        <img src={`http://openweathermap.org/img/w/${weatherIcon}.png`} />
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          : <div className='container forecast mt-5'>
+              <h1>{forecast.city.name}</h1>
+              <div className='row justify-content-sm-center mt-3 mb-3'>
+                <div className="card bg-light mb-3 col-sm-3">
+                  <div className="card-body">
+                    <h5 className="card-title">Current</h5>
+                    <p className="card-text">{this.convertToFahrenheit(weather.main.temp)}&deg;</p>
+                    <img src={`http://openweathermap.org/img/w/${weather.weather[0].icon}.png`} />
+                  </div>
                 </div>
               </div>
-            )
-          })}
-        </div>
+              <div className='row'>
+                {dailyForecast.map((dayForecast, index) => {
+                  const { date, lowTemp, highTemp, weatherIcon } = dayForecast
+
+                  return (
+                    <div className="day-card card bg-light mb-3 col-lg" key={index} onClick={this.setDetailView.bind(this, datesBlockObject[index])}>
+                      <div className="card-body">
+                        <h5 className="card-title">{this.getDisplayDate(date)}</h5>
+                        <p className="card-text">{lowTemp}&deg; - {highTemp}&deg;</p>
+                        <img src={`http://openweathermap.org/img/w/${weatherIcon}.png`} />
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+        }
       </div>
     )
   }

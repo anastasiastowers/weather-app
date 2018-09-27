@@ -58,6 +58,12 @@ nav form {
 
 /* Forecast.js */
 
-.forecast h1 {
+.forecast h1, .day-forecast h1 {
   text-align: center;
+}
+
+.forecast .day-card:hover, .day-forecast .back:hover {
+  cursor: hand;
+  cursor: pointer;
+  opacity: 0.7;
 }
