@@ -69,20 +69,14 @@ class WeatherGrid extends React.Component {
 
   dailyForecast = forecast => {
     const datesBlockObject = this.groupByDate(forecast.list, forecastBlock => forecastBlock.dt_txt)
-    // const day1 = datesBlockObject[1]
 
     let dayWeatherArray = []
     for(let i = 0; i < 5; i++) {
-      const date = datesBlockObject[i][0].dt_txt
-      const highTemp = this.calcHighTemp(datesBlockObject[i])
-      const lowTemp = this.calcLowTemp(datesBlockObject[i])
-      const weatherIcon = this.calcMostLikelyWeatherIcon(datesBlockObject[i])
-
       const dayWeather = {
-        date,
-        highTemp,
-        lowTemp,
-        weatherIcon
+        date: datesBlockObject[i][0].dt_txt,
+        highTemp: this.calcHighTemp(datesBlockObject[i]),
+        lowTemp: this.calcLowTemp(datesBlockObject[i]),
+        weatherIcon: this.calcMostLikelyWeatherIcon(datesBlockObject[i])
       }
 
       dayWeatherArray.push(dayWeather)
