@@ -1,9 +1,18 @@
 import React from 'react'
 import Loading from './Loading'
 import queryString from 'query-string'
+import PropTypes from 'prop-types'
 import { fetchCurrentWeather, fetchForecast } from '../utils/api'
 
 class WeatherGrid extends React.Component {
+  static propTypes = {
+    forecast: PropTypes.object,
+    weather: PropTypes.object
+  }
+  static defaultProps = {
+    forecast: null,
+    weather: null
+  }
   state = {
     detailView: null
   }
@@ -179,7 +188,11 @@ class Forecast extends React.Component {
       fetchCurrentWeather(locale),
       fetchForecast(locale)
     ])
-    this.setState({ isLoading: false, weather: weather, forecast: forecast })
+    if(weather.cod != '200' || forecast.cod != '200') {
+      this.setState({ isLoading: false })
+    } else {
+      this.setState({ isLoading: false, weather: weather, forecast: forecast })
+    }
   }
 
   componentDidMount() {
@@ -199,8 +212,10 @@ class Forecast extends React.Component {
     return (
       <div>
         {this.state.isLoading
-          ? <Loading />
-          : <WeatherGrid forecast={this.state.forecast} weather={this.state.weather} />}
+          ? <div className='mt-5'><Loading /></div>
+          : this.state.forecast
+            ? <WeatherGrid forecast={this.state.forecast} weather={this.state.weather} />
+            : <div className='container mt-5'>Please input your query above.</div>}
       </div>
     )
   }
